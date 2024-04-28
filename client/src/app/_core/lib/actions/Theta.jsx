@@ -11,18 +11,18 @@ import { Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
 
-const Threshhold2 = ({ nodeId }) => {
+const Theta = ({ nodeId }) => {
     const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
     const selectedNode = useStore((s) => s.selectedNode);
-    const currentThresh2 = selectedNode.node._user_data.thresh2;
-    const [val, setVal] = useState(currentThresh2)
+    const currentTheta = selectedNode.node._user_data.theta;
+    const [val, setVal] = useState(currentTheta)
     useEffect(() => {
         console.log("running use")
     }, [])
-    const onValueChange = (thresh2) => {
-        console.log(thresh2);
-        setVal(String(thresh2))
-        modifyNodeProperty(nodeId, "thresh2", String(thresh2))
+    const onValueChange = (theta) => {
+        console.log(theta);
+        setVal(String(theta))
+        modifyNodeProperty(nodeId, "theta", String(theta))
     }
     return (
         <>
@@ -35,18 +35,18 @@ const Threshhold2 = ({ nodeId }) => {
             >
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger>Threshhold 2</TooltipTrigger>
+                        <TooltipTrigger>Theta</TooltipTrigger>
                         <TooltipContent>
-                            Second threshold for the hysteresis procedure.
+                            A line can be represented as rho = x cos(theta) + ysin(theta), where theta is the angle formed by this perpendicular line and the horizontal axis measured in counter-clockwise.
+
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
-
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
                 <Slider
                     min={1}
-                    max={1000}
+                    max={360}
                     onChange={onValueChange}
                     value={parseInt(val)}
                 />
@@ -55,5 +55,4 @@ const Threshhold2 = ({ nodeId }) => {
     )
 
 }
-
-export default Threshhold2;
+export default Theta;

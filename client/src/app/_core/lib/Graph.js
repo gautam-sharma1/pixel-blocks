@@ -11,7 +11,7 @@ export default class Graph {
       filter: ["output", "filter", "detector"],
       detector: ["output", "filter"],
     };
-
+    this.busy = false;
     this.inputImage = null;
     this.outputURL = null;
     this.error = null;
@@ -118,6 +118,7 @@ export default class Graph {
   }
 
   async _precompile() {
+    this.busy = false;
     this.graph = [];
     this.compileSteps = [];
     this.error = null;

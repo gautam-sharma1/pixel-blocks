@@ -1,25 +1,32 @@
 import React, { useEffect, useRef } from 'react';
 import useStore from "@/app/_core/lib/State";
-export default function OutputCanvas(){
-    const outputURL = useStore((s)=> s.outputURL);
+import Spinner from '@/app/_core/ui/components/Spinner';
+import { Space } from 'antd';
+export default function OutputCanvas() {
+    const outputURL = useStore((s) => s.outputURL);
+    const loading = useStore((s) => s.compileState);
+    const error = useStore((s) => s.error);
     const canvasRef = useRef(null);
     useEffect(() => {
         const canvas = canvasRef.current;
-        if(canvas){
-            const ctx = canvas.getContext('2d');
+        if (canvas) {
+            if (!error) {
+                const ctx = canvas.getContext('2d');
 
-            // Create a new image object
-            const img = new Image();
+                // Create a new image object
+                const img = new Image();
 
-            // Set the onload function to draw the image onto the canvas once it's loaded
-            img.onload = function() {
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw the image to fill the entire canvas
-            };
+                // Set the onload function to draw the image onto the canvas once it's loaded
+                img.onload = function () {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw the image to fill the entire canvas
+                };
 
-            // Set the src attribute of the image object to the outputURL
-            img.src = 'data:image/jpeg;base64,'+outputURL;
+                // Set the src attribute of the image object to the outputURL
+                img.src = 'data:image/jpeg;base64,' + outputURL;
+            }
+
         }
-    }, [outputURL]); // Trigger the effect whenever the outputURL changes
+    }, [outputURL, loading, error]); // Trigger the effect whenever the outputURL changes
     // useEffect(() => {
     //     const canvas = canvasRef.current;
     //     console.log("canvas is", canvas)
@@ -40,9 +47,12 @@ export default function OutputCanvas(){
     //     }
     // }, [outputURL]); // Trigger the effect whenever the imageUrl changes
     return (
-        <div className="flex justify-center items-center mt-12 ">
-            {outputURL && <canvas className=" border-amber-950 border-8" ref={canvasRef} width={400} height={400} />}
-        </div>
-
+        <Space direction="vertical" size={16} className="flex justify-center items-center mt-12 mb-48">
+            <h2>Image Output</h2>
+            <div >
+                {loading && <Spinner />}
+                {!error && <canvas className=" border-amber-950 border-8" ref={canvasRef} width={600} height={600} />}
+            </div>
+        </Space>
     )
 };

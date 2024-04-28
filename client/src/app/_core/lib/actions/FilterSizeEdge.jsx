@@ -1,4 +1,6 @@
+
 import React, { useEffect } from 'react';
+
 import {
     Select,
     SelectContent,
@@ -6,6 +8,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 import { Card } from "antd";
 import { Radio, Typography } from 'antd';
 
@@ -32,7 +42,15 @@ const FilterSizeEdge = ({ nodeId }) => {
                 }}
 
             >
-                Filter size
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>Filter size</TooltipTrigger>
+                        <TooltipContent>
+                            Size of the extended Sobel kernel; it must be 1, 3, 5, or 7.
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
 
@@ -45,10 +63,6 @@ const FilterSizeEdge = ({ nodeId }) => {
                         <SelectItem value="3">3x3</SelectItem>
                         <SelectItem value="5">5x5</SelectItem>
                         <SelectItem value="7">7x7</SelectItem>
-                        <SelectItem value="9">9x9</SelectItem>
-                        <SelectItem value="11">11x11</SelectItem>
-                        <SelectItem value="13">13x13</SelectItem>
-                        <SelectItem value="15">15x15</SelectItem>
                     </SelectContent>
                 </Select>
             </Card>

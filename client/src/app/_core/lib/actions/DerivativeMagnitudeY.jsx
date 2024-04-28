@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
     Select,
     SelectContent,
@@ -6,14 +6,22 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {Card} from "antd";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+
+import { Card } from "antd";
 import { Radio, Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
 
-const DerivativeMagnitudeY = ({nodeId}) => {
-    const modifyNodeProperty = useStore((s)=>s.modifyNodeProperty);
-    const selectedNode = useStore((s)=> s.selectedNode);
+const DerivativeMagnitudeY = ({ nodeId }) => {
+    const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
+    const selectedNode = useStore((s) => s.selectedNode);
     const currentDySize = selectedNode.node._user_data.dy;
 
     const onValueChange = (dy) => {
@@ -29,7 +37,15 @@ const DerivativeMagnitudeY = ({nodeId}) => {
                 }}
 
             >
-                Derivative order in y
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>Derivative order in y</TooltipTrigger>
+                        <TooltipContent>
+                            Order of the derivative y
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
 

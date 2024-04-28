@@ -10,6 +10,26 @@ export default class CannyEdgeDetectorBlock extends DetectorBlock {
     getDialogSchema() {
         return ["menu_threshhold1", "menu_threshhold2"]
     }
+    getDialogSchema() {
+        return [
+            {
+                type: "slider",
+                propName: "thresh1",
+                displayName: "Threshhold 1",
+                description: "First threshold for the hysteresis procedure.",
+                min: 1,
+                max: 1000
+            },
+            {
+                type: "slider",
+                propName: "thresh2",
+                displayName: "Threshhold 2",
+                description: "Second threshold for the hysteresis procedure.",
+                min: 1,
+                max: 1000
+            },
 
+        ]
+    }
 
 }

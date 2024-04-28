@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Slider } from "@/components/ui/slider"
-
+import { Slider } from "antd";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Card } from "antd";
 import { Typography } from 'antd';
 
@@ -14,10 +19,10 @@ const Threshhold1 = ({ nodeId }) => {
     useEffect(() => {
         console.log("running use")
     }, [])
-    const onValueChange = (thresh) => {
-        console.log(thresh);
-        setVal(String(thresh))
-        modifyNodeProperty(nodeId, "thresh1", String(thresh))
+    const onValueChange = (thresh1) => {
+        console.log(thresh1);
+        setVal(String(thresh1))
+        modifyNodeProperty(nodeId, "thresh1", String(thresh1))
     }
     return (
         <>
@@ -28,14 +33,26 @@ const Threshhold1 = ({ nodeId }) => {
                 }}
 
             >
-                Threshhold 1
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>Threshhold 1</TooltipTrigger>
+                        <TooltipContent>
+                            First threshold for the hysteresis procedure.
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
-                <Slider defaultValue={[parseInt(currentThresh1)]} onValueChange={onValueChange} max={1000} step={1} />
-                <span>{parseInt(val)}</span>
+                <Slider
+                    min={1}
+                    max={1000}
+                    onChange={onValueChange}
+                    value={parseInt(val)}
+                />
             </Card>
         </>
     )
-
 }
+
 export default Threshhold1;

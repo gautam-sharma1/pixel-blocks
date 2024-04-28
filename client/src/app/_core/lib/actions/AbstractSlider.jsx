@@ -6,23 +6,26 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+
 import { Card } from "antd";
 import { Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
 
-const Threshhold2 = ({ nodeId }) => {
+const AbstractSlider = ({ nodeId, menuSchema }) => {
+
+    const { propName, displayName, description, min, max } = menuSchema;
+
     const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
     const selectedNode = useStore((s) => s.selectedNode);
-    const currentThresh2 = selectedNode.node._user_data.thresh2;
-    const [val, setVal] = useState(currentThresh2)
-    useEffect(() => {
-        console.log("running use")
-    }, [])
-    const onValueChange = (thresh2) => {
-        console.log(thresh2);
-        setVal(String(thresh2))
-        modifyNodeProperty(nodeId, "thresh2", String(thresh2))
+    const currentStoredValInCache = selectedNode.node._user_data[propName];
+    const [val, setVal] = useState(currentStoredValInCache)
+    // useEffect(() => {
+    //     console.log("running use")
+    // }, [])
+    const onValueChange = (newVal) => {
+        setVal(String(newVal))
+        modifyNodeProperty(nodeId, propName, String(newVal))
     }
     return (
         <>
@@ -35,18 +38,19 @@ const Threshhold2 = ({ nodeId }) => {
             >
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger>Threshhold 2</TooltipTrigger>
+                        <TooltipTrigger>{displayName}</TooltipTrigger>
                         <TooltipContent>
-                            Second threshold for the hysteresis procedure.
+                            {description}
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
 
+
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
                 <Slider
-                    min={1}
-                    max={1000}
+                    min={min}
+                    max={max}
                     onChange={onValueChange}
                     value={parseInt(val)}
                 />
@@ -55,5 +59,4 @@ const Threshhold2 = ({ nodeId }) => {
     )
 
 }
-
-export default Threshhold2;
+export default AbstractSlider;

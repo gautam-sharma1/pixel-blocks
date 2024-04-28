@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
     Select,
     SelectContent,
@@ -6,20 +6,29 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {Card} from "antd";
+
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+
+import { Card } from "antd";
 import { Radio, Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
 
-const DerivativeMagnitudeX = ({nodeId}) => {
-    const modifyNodeProperty = useStore((s)=>s.modifyNodeProperty);
-    const selectedNode = useStore((s)=>s.selectedNode);
+const DerivativeMagnitudeX = ({ nodeId }) => {
+    const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
+    const selectedNode = useStore((s) => s.selectedNode);
     const maxDerivativesAllowed = selectedNode.node._user_data.filter_size;
 
     const currentDxSize = selectedNode.node._user_data.dx;
-    useEffect(()=>{
+    useEffect(() => {
         console.log("running use")
-    },[])
+    }, [])
     const onValueChange = (dx) => {
         console.log(dx)
         modifyNodeProperty(nodeId, "dx", dx)
@@ -34,7 +43,15 @@ const DerivativeMagnitudeX = ({nodeId}) => {
                 }}
 
             >
-                Derivative order in x
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>Derivative order in x</TooltipTrigger>
+                        <TooltipContent>
+                            Order of the derivative x
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
                 <Select onValueChange={onValueChange} defaultValue={currentDxSize}>

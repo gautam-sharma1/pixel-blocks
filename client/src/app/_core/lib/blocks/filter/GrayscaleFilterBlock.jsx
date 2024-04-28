@@ -8,7 +8,16 @@ export default class GrayscaleFilterBlock extends FilterBlock {
     }
 
     getDialogSchema() {
-        return ["menu_color_to_gray"]
+        return [{
+            type: "selector",
+            propName: "color_scheme", // should match the prop name in the constructor ^
+            displayName: "Color Scheme",
+            description: "Assumes the input image to be either in Red Green Blue (RGB) or Blue Green Red (BGR) channel format",
+            selectors: [
+                { text: "RGB to Gray", value: "rgb_to_gray" },
+                { text: "BGR to Gray", value: "bgr_to_gray" },
+            ]
+        }]
     }
 
 

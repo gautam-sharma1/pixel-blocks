@@ -5,6 +5,8 @@ from actions.filter.sobel_filter import SobelFilter
 from actions.filter.grayscale_filter import GrayscaleFilter
 from actions.filter.blur_filter import BlurFilter
 from actions.detector.canny_edge_detection import CannyEdgeDetector
+from actions.detector.hough_line_detection import HoughLineDetector
+
 
 class Interpreter:
     def __init__(self):
@@ -26,6 +28,7 @@ class Interpreter:
         self.registry.register_action("filter_sobel", SobelFilter)
         self.registry.register_action("filter_blur", BlurFilter)
         self.registry.register_action("detector_canny_edge", CannyEdgeDetector)
+        self.registry.register_action("detector_hough_line", HoughLineDetector)
         self.registry.register_action("filter_grayscale", GrayscaleFilter)
 
 

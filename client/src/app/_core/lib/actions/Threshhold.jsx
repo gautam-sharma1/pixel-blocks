@@ -6,23 +6,24 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+
 import { Card } from "antd";
 import { Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
 
-const Threshhold2 = ({ nodeId }) => {
+const Threshhold = ({ nodeId }) => {
     const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
     const selectedNode = useStore((s) => s.selectedNode);
-    const currentThresh2 = selectedNode.node._user_data.thresh2;
-    const [val, setVal] = useState(currentThresh2)
+    const currentThresh = selectedNode.node._user_data.thresh;
+    const [val, setVal] = useState(currentThresh)
     useEffect(() => {
         console.log("running use")
     }, [])
-    const onValueChange = (thresh2) => {
-        console.log(thresh2);
-        setVal(String(thresh2))
-        modifyNodeProperty(nodeId, "thresh2", String(thresh2))
+    const onValueChange = (thresh) => {
+        console.log(thresh);
+        setVal(String(thresh))
+        modifyNodeProperty(nodeId, "thresh", String(thresh))
     }
     return (
         <>
@@ -35,18 +36,19 @@ const Threshhold2 = ({ nodeId }) => {
             >
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger>Threshhold 2</TooltipTrigger>
+                        <TooltipTrigger>Threshhold</TooltipTrigger>
                         <TooltipContent>
-                            Second threshold for the hysteresis procedure.
+                            Minimum points to consider a line.
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
+
 
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
                 <Slider
                     min={1}
-                    max={1000}
+                    max={250}
                     onChange={onValueChange}
                     value={parseInt(val)}
                 />
@@ -55,5 +57,4 @@ const Threshhold2 = ({ nodeId }) => {
     )
 
 }
-
-export default Threshhold2;
+export default Threshhold;

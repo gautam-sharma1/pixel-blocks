@@ -1,58 +1,65 @@
+"""
+SobelFilter Action Module
+
+This module provides functionality to apply Sobel edge detection filter on grayscale images.
+
+Classes:
+    SobelFilter: A class to apply Sobel edge detection filter on grayscale images.
+
+Usage:
+    sobel_filter_action = SobelFilter()
+    result = sobel_filter_action.perform_action(block, prev_input)
+
+"""
+
 from actions.Action import Action
 import cv2
-import base64
 import numpy as np
 
 
 class SobelFilter(Action):
+    """
+    SobelFilter Class
+
+    A class to apply Sobel edge detection filter on grayscale images.
+
+    Methods:
+        perform_action(block, prev_input):
+            Apply Sobel edge detection filter on grayscale image.
+
+    """
 
     def __init__(self):
         super().__init__()
 
     @staticmethod
     def perform_action(blk, prev_input):
-        '''
-        Will receive a dictionary of block values
-        '''
-        # convert image to grayscale
+        """
+        Apply Sobel edge detection filter on grayscale image.
+
+        Args:
+            blk (dict): A dictionary containing block values with '_user_data' keys specifying filter parameters.
+            prev_input: Previous input data, expected to be a grayscale image.
+
+        Returns:
+            dict: A dictionary containing the image processed with Sobel filter and any error encountered during processing.
+
+        """
         try:
-            input = prev_input
+            # Convert the input image to grayscale
+            input_image = prev_input
+            grayscale_image = cv2.cvtColor(input_image, cv2.COLOR_RGB2GRAY)
 
-            grayscale_image = cv2.cvtColor(input, cv2.COLOR_RGB2GRAY)
-            dx = 0
-            dy = 0
-            filter_size = 1
+            # Extract filter parameters from block data
+            dx = int(blk["_user_data"].get("dx", 0))
+            dy = int(blk["_user_data"].get("dy", 0))
+            filter_size = int(blk["_user_data"].get("filter_size", 1))
 
-            if "dx" in blk["_user_data"]:
-                dx = int(blk["_user_data"]["dx"])
-
-            if "dy" in blk["_user_data"]:
-                dy = int(blk["_user_data"]["dy"])
-
-            filter_size = int(blk["_user_data"]["filter_size"])
-
+            # Apply Sobel edge detection filter
             out = cv2.Sobel(grayscale_image, cv2.CV_64F, dx, dy, ksize=filter_size)
+
             return {"out": out, "error": None}
 
-        except:
-            return {"out": None, "error": "Try increasing the filter size or reducing the derivative"}
-        # # 'output_file_path' is the path where you want to save the image
-        # output_file_path = 'output_image.jpg'
-        #
-        # # Save the grayscale image to a file
-        # cv2.imwrite(output_file_path, out)
-        # print(out)
-
-
-
-
-
-
-
-
-
-
-
-
-
+        except Exception as e:
+            return {"out": None, "error": str(e)}
 

@@ -12,12 +12,13 @@ import SobelFilterBlock from "@/app/_core/lib/blocks/filter/SobelFilterBlock";
 import GrayscaleFilterBlock from "@/app/_core/lib/blocks/filter/GrayscaleFilterBlock";
 import BlurFilterBlock from "@/app/_core/lib/blocks/filter/BlurFilterBlock";
 import CannyEdgeDetectorBlock from "@/app/_core/lib/blocks/detector/CannyEdgeDetectorBlock";
+import HoughLineDetectorBlock from "@/app/_core/lib/blocks/detector/HoughLineDetectorBlock";
 
 const menuOptions = new Map(
     [
         ["Input", ["Input Image Block"]],
         ["Filter", ["Sobel Filter Block", "Grayscale Filter Block", "Blur Filter Block"]],
-        ["Detection", ["Canny Edge Detection Block"]],
+        ["Detection", ["Canny Edge Detection Block", "Hough Line Detection Block"]],
         ["Output", ["Display Block"]],
     ])
 
@@ -88,7 +89,11 @@ export default function LeftSideMenu() {
         const blk = new CannyEdgeDetectorBlock(numBlocks.toString())
         setNodes([...nodes, blk]);
     }
-
+    function handleHoughLineDetectionBlock() {
+        increaseBlocksFcn();
+        const blk = new HoughLineDetectorBlock(numBlocks.toString())
+        setNodes([...nodes, blk]);
+    }
     function handleRandomNodeInsert() {
         increaseBlocksFcn();
         const img = RandomBlockConcrete(numBlocks.toString())
@@ -110,6 +115,8 @@ export default function LeftSideMenu() {
                 return handleBlurNodeInsert;
             case "Canny Edge Detection Block":
                 return handleCannyEdgeNodeInsert;
+            case "Hough Line Detection Block":
+                return handleHoughLineDetectionBlock;
             default:
                 return (<></>);
         }
@@ -138,6 +145,7 @@ export default function LeftSideMenu() {
                 defaultOpenKeys={['sub1']}
                 style={{
                     height: '100%',
+                    fontSize: "12px",
                 }}
                 items={items1}
             />

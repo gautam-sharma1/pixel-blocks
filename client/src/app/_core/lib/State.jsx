@@ -30,12 +30,13 @@ const useBlockStore = create((set) => ({
 const useNodeStore = create((set) => ({
     nodes: [],
     setNodes: (node) => set((state) => ({
-        nodes: [...state.nodes, node]}
+        nodes: [...state.nodes, node]
+    }
     )),
     // removeAllBlocks: () => set({ numBlocks: 0 }),
 }))
 
-const useGraphStore= create((set) => ({
+const useGraphStore = create((set) => ({
     graph: new Graph(),
 }))
 
@@ -46,33 +47,33 @@ const useStore = create((set, get) => ({
     edges: [],
     menu: null,
     ref: { current: null },
-    nodeType:null,
-    selectedNode : {},
+    nodeType: null,
+    selectedNode: {},
     outputURL: null, // image url
     compileState: false,
-    propMenu : null,
+    loading: false,
+    propMenu: null,
     error: null,
     graph: new Graph(),
 
-    setError:(change)=>{
+    setError: (change) => {
         set({
             error: change
         })
     },
 
-    onPropChange:(change)=>{
-      set({
-          propMenu: change,
-      })
+    onPropChange: (change) => {
+        set({
+            propMenu: change,
+        })
     },
 
-    setCompileState:(change)=>{
+    setCompileState: (change) => {
         set({
             compileState: change,
         });
     },
-
-    setOutputURL:(value)=>{
+    setOutputURL: (value) => {
         set({
             outputURL: value
         })
@@ -119,12 +120,12 @@ const useStore = create((set, get) => ({
         return !hasCycle(target);
     },
 
-    onSelectionChange: ({nodes,edges}) => {
+    onSelectionChange: ({ nodes, edges }) => {
         const changedNode = nodes[0];
-        if(changedNode){
-            set((state) =>(
+        if (changedNode) {
+            set((state) => (
                 {
-                    selectedNode : {
+                    selectedNode: {
                         id: changedNode.id,
                         type: changedNode._type,
                         node: changedNode
@@ -135,11 +136,11 @@ const useStore = create((set, get) => ({
 
     },
 
-    modifyNodeProperty: (nodeId, propertyName, propertyValue) =>{
+    modifyNodeProperty: (nodeId, propertyName, propertyValue) => {
         set((state) => ({
 
             nodes: state.nodes.map((node) =>
-                node.id === nodeId ? { ...node, _user_data: {...node._user_data ,[propertyName] : propertyValue} } : node
+                node.id === nodeId ? { ...node, _user_data: { ...node._user_data, [propertyName]: propertyValue } } : node
             ),
         })
         )
@@ -182,4 +183,4 @@ const useStore = create((set, get) => ({
 export default useStore;
 
 
-export  {useBlockStore, useGraphStore,useNodeStore};
+export { useBlockStore, useGraphStore, useNodeStore };

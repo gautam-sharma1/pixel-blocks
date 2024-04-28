@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Slider } from "antd";
+import { InputNumber } from 'antd';
+
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+
 import { Card } from "antd";
 import { Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
-
-const Threshhold2 = ({ nodeId }) => {
+// TODO
+const AbstractInputNumber = ({ nodeId, menuSchema }) => {
     const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
     const selectedNode = useStore((s) => s.selectedNode);
-    const currentThresh2 = selectedNode.node._user_data.thresh2;
-    const [val, setVal] = useState(currentThresh2)
+    const currcurrentStoredValInCacheentRho = selectedNode.node._user_data[propName];
+    const [val, setVal] = useState(currentRho)
     useEffect(() => {
         console.log("running use")
     }, [])
-    const onValueChange = (thresh2) => {
-        console.log(thresh2);
-        setVal(String(thresh2))
-        modifyNodeProperty(nodeId, "thresh2", String(thresh2))
+    const onValueChange = (rho) => {
+        console.log(rho);
+        setVal(String(rho))
+        modifyNodeProperty(nodeId, "thresh", String(rho))
     }
     return (
         <>
@@ -35,25 +37,19 @@ const Threshhold2 = ({ nodeId }) => {
             >
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger>Threshhold 2</TooltipTrigger>
+                        <TooltipTrigger>Rho</TooltipTrigger>
                         <TooltipContent>
-                            Second threshold for the hysteresis procedure.
+                            A line can be represented as rho = x cos(theta) + ysin(theta), where rho is the perpendicular distance from the origin to the line.
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
 
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
-                <Slider
-                    min={1}
-                    max={1000}
-                    onChange={onValueChange}
-                    value={parseInt(val)}
-                />
+                <InputNumber min={1} max={200} defaultValue={parseInt(val)} onChange={onValueChange} />
             </Card>
         </>
     )
 
 }
-
-export default Threshhold2;
+export default Rho;

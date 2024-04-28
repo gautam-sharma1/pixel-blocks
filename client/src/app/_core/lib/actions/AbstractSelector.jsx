@@ -1,4 +1,6 @@
+
 import React, { useEffect } from 'react';
+
 import {
     Select,
     SelectContent,
@@ -6,28 +8,32 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+
 import { Card } from "antd";
 import { Radio, Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
 
-const Color2Gray = ({ nodeId }) => {
+const FilterSizeEdge = ({ nodeId, menuSchema }) => {
+    const { propName, displayName, description, selectors } = menuSchema;
     const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
     const selectedNode = useStore((s) => s.selectedNode);
-    const currentColorScheme = selectedNode.node._user_data.color_scheme;
-    useEffect(() => {
-        console.log("running use")
-    }, [])
-    const onValueChange = (new_color_scheme) => {
-        console.log(new_color_scheme)
-        modifyNodeProperty(nodeId, "color_scheme", new_color_scheme)
+    const onPropChange = useStore((s) => s.onPropChange);
+
+    const currentStoredValInCache = selectedNode.node._user_data[propName];
+
+    const onValueChange = (newVal) => {
+        onPropChange(); // Just a dummy event so that filter x and Y can be set accordingly
+        modifyNodeProperty(nodeId, propName, newVal)
     }
+
     return (
         <>
             <Typography.Title
@@ -39,22 +45,28 @@ const Color2Gray = ({ nodeId }) => {
             >
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger>Color Scheme</TooltipTrigger>
+                        <TooltipTrigger>{displayName}</TooltipTrigger>
                         <TooltipContent>
-                            Assumes the input image to be either in Red Green Blue (RGB) or Blue Green Red (BGR) channel format
+                            {description}
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
 
             </Typography.Title>
             <Card size="small" className="border-amber-900" style={{ width: 250 }}>
-                <Select onValueChange={onValueChange} defaultValue={currentColorScheme}>
+
+                <Select onValueChange={onValueChange} defaultValue={currentStoredValInCache}>
                     <SelectTrigger>
-                        <SelectValue placeholder="Color Scheme" />
+                        <SelectValue placeholder={displayName} />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="rgb_to_gray">RGB to Gray</SelectItem>
-                        <SelectItem value="bgr_to_gray">BGR to Gray</SelectItem>
+                        {
+                            selectors.map((selector, id) => {
+                                return (
+                                    <SelectItem key={id} value={selector.value}>{selector.text}</SelectItem>
+                                )
+                            })
+                        }
                     </SelectContent>
                 </Select>
             </Card>
@@ -62,5 +74,4 @@ const Color2Gray = ({ nodeId }) => {
     )
 
 }
-
-export default Color2Gray;
+export default FilterSizeEdge;
