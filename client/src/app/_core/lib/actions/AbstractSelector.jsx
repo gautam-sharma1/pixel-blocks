@@ -39,7 +39,8 @@ const FilterSizeEdge = ({ nodeId, menuSchema }) => {
             <Typography.Title
                 level={4}
                 style={{
-                    textAlign: "left"
+                    textAlign: "left",
+                    fontSize: "12px"
                 }}
 
             >
@@ -53,7 +54,7 @@ const FilterSizeEdge = ({ nodeId, menuSchema }) => {
                 </TooltipProvider>
 
             </Typography.Title>
-            <Card size="small" className="border-amber-900" style={{ width: 250 }}>
+            <Card size="small" className="border-amber-900" style={{ width: 200 }}>
 
                 <Select onValueChange={onValueChange} defaultValue={currentStoredValInCache}>
                     <SelectTrigger>

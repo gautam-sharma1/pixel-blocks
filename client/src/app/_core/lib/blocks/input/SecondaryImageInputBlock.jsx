@@ -1,11 +1,10 @@
 import InputBlock from "./InputBlock";
 
-export default class ImageInputBlock extends InputBlock {
+export default class SecondaryImageInputBlock extends InputBlock {
     constructor(id) {
-        super({ id: id, label: "Image Input Block", type: "image_input", custom_user_data: { image: null } })
+        super({ id: id, label: "Secondary Image Input Block", type: "secondary_image_input", custom_user_data: { image: null } })
         super.dialog_schema = this.getDialogSchema();
-
-
+        super.collapsible = true;
     }
 
     // Define dialog scheme here
@@ -17,6 +16,5 @@ export default class ImageInputBlock extends InputBlock {
             propName: "image",
         }]
     }
-
 
 }

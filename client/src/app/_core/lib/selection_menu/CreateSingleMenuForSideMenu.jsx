@@ -1,15 +1,5 @@
 
-import React from "react";
-import ImageUpload from "@/app/_core/lib/actions/ImageUpload";
-import FilterSizeEdge from "@/app/_core/lib/actions/FilterSizeEdge";
-import DerivativeMagnitudeX from "@/app/_core/lib/actions/DerivativeMagnitudeX";
-import DerivativeMagnitudeY from "@/app/_core/lib/actions/DerivativeMagnitudeY";
-import Color2Gray from "@/app/_core/lib/actions/Color2Gray";
-import Threshhold1 from "@/app/_core/lib/actions/Threshhold1";
-import Threshhold2 from "@/app/_core/lib/actions/Threshhold2";
-import Threshhold from "@/app/_core/lib/actions/Threshhold";
-import Theta from "@/app/_core/lib/actions/Theta";
-import Rho from "@/app/_core/lib/actions/Rho";
+import { Card, Space } from 'antd';
 import AbstractSlider from "@/app/_core/lib/actions/AbstractSlider";
 import AbstractSelector from "@/app/_core/lib/actions/AbstractSelector";
 import AbstractImageUpload from "@/app/_core/lib/actions/AbstractImageUpload";
@@ -45,7 +35,9 @@ export default function CreateSingleMenuForSideMenu({ nodeId, menuToRender }) {
             // case "menu_rho":
             // return (<Rho nodeId={nodeId} />)
             default:
-                return (<div className="w-80 h-80" ></div>);
+                return (<Card size="small" className="border-amber-900" style={{ width: 200 }}>
+
+                </Card>);
         }
     }
     return (

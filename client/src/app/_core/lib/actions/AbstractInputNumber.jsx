@@ -29,7 +29,7 @@ const AbstractInputNumber = ({ nodeId, menuSchema }) => {
     return (
         <>
             <Typography.Title
-                level={4}
+                level={2}
                 style={{
                     textAlign: "left"
                 }}

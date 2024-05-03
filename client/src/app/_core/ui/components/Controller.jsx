@@ -34,8 +34,9 @@ export default function GraphController() {
     return (
 
         <>
-            {error && <AlertDestructive text={error} onCleanup={onCleanup} />}
-            <Flow nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges} edgeTypes={edgeTypes} />
+
+            <Flow nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges} edgeTypes={edgeTypes} error={error} />
+            {/* {error && <AlertDestructive text={error} onCleanup={onCleanup} />} */}
         </>
 
 

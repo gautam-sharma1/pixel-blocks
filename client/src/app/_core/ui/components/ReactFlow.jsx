@@ -11,8 +11,9 @@ import ResizableInputNode from './ResizableInputNode';
 import ResizableOutputNode from './ResizableOutputNode';
 import ReactFlow, { updateEdge, Background } from 'reactflow';
 import nodeTypes from './NodeTypes';
+import { AlertDestructive } from "@/app/_core/lib/alert/Alert";
 
-function Flow({ nodes, setNodes, edges, setEdges, edgeTypes }) {
+function Flow({ nodes, setNodes, edges, setEdges, edgeTypes, error }) {
     const proOptions = { hideAttribution: true }
     const onNodesChange = useStore((s) => s.onNodesChange)
     const onConnect = useStore((s) => s.onConnect);
@@ -27,8 +28,9 @@ function Flow({ nodes, setNodes, edges, setEdges, edgeTypes }) {
     const myNodeTypes = useMemo(
         () => ({
             ResizableNode: nodeTypes.ResizableNode,
-            ResizableInputNode: nodeTypes.ResizableNode,
-            ResizableOutputNode: nodeTypes.ResizableNode,
+            ResizableInputNode: nodeTypes.ResizableInputNode,
+            ResizableOutputNode: nodeTypes.ResizableOutputNode,
+            ResizableTwoInputNode: nodeTypes.Resizable2InputNode,
         }),
         [],
     );
@@ -70,6 +72,7 @@ function Flow({ nodes, setNodes, edges, setEdges, edgeTypes }) {
         >
 
             <Background />
+            {error && <AlertDestructive text={error} onCleanup={() => { }} />}
             {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
         </ReactFlow>
     );

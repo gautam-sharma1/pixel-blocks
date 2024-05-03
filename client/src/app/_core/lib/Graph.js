@@ -7,9 +7,10 @@ export default class Graph {
     this.graph = [];
     this.graphAdjacenyList = {};
     this.allowedEdges = {
-      input: ["output", "filter"],
+      input: ["output", "filter", "operation"],
       filter: ["output", "filter", "detector"],
       detector: ["output", "filter"],
+      operation: ["output", "filter", "detector", "operation"],
     };
     this.busy = false;
     this.inputImage = null;
@@ -47,31 +48,70 @@ export default class Graph {
       this.graph.push(child);
       return;
     }
+
     this.graph.push(child);
+
     this.findNextNeighbor(child);
   }
 
-  constructUniDirectionalGraph() {
-    // Iterate through array data to add connections to the graph
-    // this.compileSteps.forEach((connection) => {
-    //   const sourceNode = connection[0].id;
-    //   const targetNode = connection[1].id;
-    //   //   if (!this.graph[sourceNode]) {
-    //   //     this.graph[sourceNode] = [];
-    //   //   }
-    //   this.graph[connection[0]] = connection[1];
-    // });
+  async constructUniDirectionalGraph() {
+    for (const id in this.graphAdjacenyList) {
+      const node = this.nodes.filter((node) => node.id === id);
+      if (node[0].collapsible) {
+        this.graphAdjacenyList[id]._user_data.result = await this.readImageData(
+          node[0]._user_data.image
+        );
+      }
+    }
+
     this.graph.push(this.sourceNode);
     this.findNextNeighbor(this.sourceNode);
+    // traversal done
 
-    console.log(this.graph);
-    // Print the constructed graph (adjacency list representation)
-    // for (const node in this.graph) {
-    //   if (this.graph.hasOwnProperty(node)) {
-    //     const neighbors = this.graph[node].join(", ");
-    //     console.log(`${node} -> ${neighbors}`);
-    //   }
-    // }
+    console.log("graph is: ", this.graph);
+  }
+
+  async _precompile() {
+    this.busy = false;
+    this.graph = [];
+    this.compileSteps = [];
+    this.error = null;
+    this.graphAdjacenyList = {};
+    if (this.nodes && this.edges) {
+      for (const edge of this.edges) {
+        debugger;
+        const sourceID = edge.source;
+        const targetID = edge.target;
+        const sourceNode = this.nodes.filter((node) => node.id === sourceID);
+        const targetNode = this.nodes.filter((node) => node.id === targetID);
+        const sourceNodeType = sourceNode[0]._base_type;
+        const targetNodeType = targetNode[0]._base_type;
+        this.graphAdjacenyList[sourceID] = targetNode[0];
+        if (sourceNode[0]._type === "image_input") {
+          this.sourceNode = sourceNode[0];
+          //debugger;
+          if (sourceNode[0]._user_data?.image) {
+            const imageData = await this.readImageData(
+              sourceNode[0]._user_data.image
+            );
+            sourceNode[0].imageAsBytes = imageData;
+          } else {
+            this.error = "Please upload an image";
+            return false;
+          }
+        }
+        // if(targetNode[0]._type === "image_output"){
+        //     this.endNodeId = targetID;
+        // }
+        if (this.isValidEdge(sourceNodeType, targetNodeType)) {
+          this.compileSteps.push([sourceNode[0], targetNode[0]]);
+        } else {
+          this.error = `Invalid edge from ${sourceNode[0].label} to ${targetNode[0].label}`;
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   isValidEdge(sourceNodeType, targetNodeType) {
@@ -80,6 +120,7 @@ export default class Graph {
   }
 
   async sendRequestToBackend() {
+    debugger;
     return fetch("http://127.0.0.1:8000/compile", {
       method: "POST",
       headers: {
@@ -117,53 +158,13 @@ export default class Graph {
     });
   }
 
-  async _precompile() {
-    this.busy = false;
-    this.graph = [];
-    this.compileSteps = [];
-    this.error = null;
-    if (this.nodes && this.edges) {
-      for (const edge of this.edges) {
-        const sourceID = edge.source;
-        const targetID = edge.target;
-        const sourceNode = this.nodes.filter((node) => node.id === sourceID);
-        const targetNode = this.nodes.filter((node) => node.id === targetID);
-        const sourceNodeType = sourceNode[0]._base_type;
-        const targetNodeType = targetNode[0]._base_type;
-        this.graphAdjacenyList[sourceID] = targetNode[0];
-        if (sourceNode[0]._type === "image_input") {
-          this.sourceNode = sourceNode[0];
-          //   //debugger;
-          if (sourceNode[0]._user_data?.image) {
-            const imageData = await this.readImageData(
-              sourceNode[0]._user_data.image
-            );
-            sourceNode[0].imageAsBytes = imageData;
-          } else {
-            this.error = "Please upload an image";
-            return false;
-          }
-        }
-        // if(targetNode[0]._type === "image_output"){
-        //     this.endNodeId = targetID;
-        // }
-        if (this.isValidEdge(sourceNodeType, targetNodeType)) {
-          this.compileSteps.push([sourceNode[0], targetNode[0]]);
-        } else {
-          console.log("Not a valid edge");
-        }
-      }
-    }
-    return true;
-  }
-
   async compile() {
     const status = await this._precompile();
     if (!status) {
       return [false, null];
     }
 
-    this.constructUniDirectionalGraph();
+    await this.constructUniDirectionalGraph();
 
     // for (let idx = 0; idx < this.compileSteps; ++idx) {
     //   const [sourceNode, targetNode] = this.compileSteps[idx];

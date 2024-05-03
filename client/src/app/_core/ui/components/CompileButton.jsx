@@ -11,7 +11,6 @@ const App = () => {
     const setOutputURL = useStore((s) => s.setOutputURL);
     const setError = useStore((s) => s.setError);
     async function handleCompile(e) {
-        debugger;
         e.preventDefault();
         setCompileState(true);
 

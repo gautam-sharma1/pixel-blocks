@@ -6,20 +6,46 @@ import { useReactFlow } from "reactflow";
 
 import ImageInputBlock from "@/app/_core/lib/blocks/input/ImageInputBlock";
 import ImageOutputBlock from "@/app/_core/lib/blocks/output/ImageOutputBlock";
-
 import RandomBlockConcrete from "@/app/_core/lib/RandomBlockConcrete";
 import SobelFilterBlock from "@/app/_core/lib/blocks/filter/SobelFilterBlock";
 import GrayscaleFilterBlock from "@/app/_core/lib/blocks/filter/GrayscaleFilterBlock";
 import BlurFilterBlock from "@/app/_core/lib/blocks/filter/BlurFilterBlock";
 import CannyEdgeDetectorBlock from "@/app/_core/lib/blocks/detector/CannyEdgeDetectorBlock";
 import HoughLineDetectorBlock from "@/app/_core/lib/blocks/detector/HoughLineDetectorBlock";
+import NotOperationBlock from "@/app/_core/lib/blocks/operation/NotOperationBlock";
+import AndOperationBlock from "@/app/_core/lib/blocks/operation/AndOperationBlock";
+import SecondaryImageInputBlock from "@/app/_core/lib/blocks/input/SecondaryImageInputBlock";
+
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
+import TvOutlinedIcon from '@mui/icons-material/TvOutlined';
+import ContrastOutlinedIcon from '@mui/icons-material/ContrastOutlined';
+import BlurCircularOutlinedIcon from '@mui/icons-material/BlurCircularOutlined';
+import BlurOffOutlinedIcon from '@mui/icons-material/BlurOffOutlined';
+import Grid4x4OutlinedIcon from '@mui/icons-material/Grid4x4Outlined';
+import SsidChartOutlinedIcon from '@mui/icons-material/SsidChartOutlined';
+import InputOutlinedIcon from '@mui/icons-material/InputOutlined';
+import OutputOutlinedIcon from '@mui/icons-material/OutputOutlined';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
+import CalculateIcon from '@mui/icons-material/Calculate';
+import FlipIcon from '@mui/icons-material/Flip';
+
+const menuIcons = new Map(
+    [
+        ["Input", { icon: <InputOutlinedIcon /> }],
+        ["Operation", { icon: <CalculateIcon /> }],
+        ["Filter", { icon: <AutoAwesomeOutlinedIcon /> }],
+        ["Detection", { icon: <TuneOutlinedIcon /> }],
+        ["Output", { icon: <OutputOutlinedIcon /> }],
+    ]);
 
 const menuOptions = new Map(
     [
-        ["Input", ["Input Image Block"]],
-        ["Filter", ["Sobel Filter Block", "Grayscale Filter Block", "Blur Filter Block"]],
-        ["Detection", ["Canny Edge Detection Block", "Hough Line Detection Block"]],
-        ["Output", ["Display Block"]],
+        ["Input", [{ name: "Input Image Block", icon: <InsertPhotoOutlinedIcon /> }, { name: "Secondary Input Image Block", icon: <InsertPhotoOutlinedIcon /> }]],
+        ["Operation", [{ name: "Bitwise Not Image Block", icon: <FlipIcon /> }, { name: "Bitwise And Image Block", icon: <FlipIcon /> }]],
+        ["Filter", [{ name: "Sobel Filter Block", icon: <BlurOffOutlinedIcon /> }, { name: "Grayscale Filter Block", icon: <ContrastOutlinedIcon /> }, { name: "Blur Filter Block", icon: <BlurCircularOutlinedIcon /> }]],
+        ["Detection", [{ name: "Canny Edge Detection Block", icon: <Grid4x4OutlinedIcon /> }, { name: "Hough Line Detection Block", icon: <SsidChartOutlinedIcon /> },]],
+        ["Output", [{ name: "Display Block", icon: <TvOutlinedIcon /> }]],
     ])
 
 
@@ -31,13 +57,14 @@ const items1 = toplevelOptions.map((option, index) => {
     const subOptions = [...menuOptions.get(option)];
     return {
         key: `sub${key}`,
-        // icon: React.createElement(icon),
+        icon: menuIcons.get(option).icon,
         label: option,
         children: subOptions.map((subOption, j) => {
             const subKey = index * 4 + j + 1;
             return {
-                key: subOption,
-                label: subOption,
+                key: subOption.name,
+                label: subOption.name,
+                icon: subOption.icon,
             };
         }),
     };
@@ -54,72 +81,37 @@ export default function LeftSideMenu() {
     const increaseBlocksFcn = useBlockStore((state) => state.increaseBlocks)
 
 
-    function handleInputNodeInsert() {
-        increaseBlocksFcn();
-        const blk = new ImageInputBlock(numBlocks.toString())
-        setNodes([...nodes, blk]);
+    const nodeInsertionHandlers = {
+        "Input Image Block": ImageInputBlock,
+        "Secondary Input Image Block": SecondaryImageInputBlock,
+        "Display Block": ImageOutputBlock,
+        "Sobel Filter Block": SobelFilterBlock,
+        "Grayscale Filter Block": GrayscaleFilterBlock,
+        "Blur Filter Block": BlurFilterBlock,
+        "Canny Edge Detection Block": CannyEdgeDetectorBlock,
+        "Hough Line Detection Block": HoughLineDetectorBlock,
+        "Bitwise Not Image Block": NotOperationBlock,
+        "Bitwise And Image Block": AndOperationBlock
+    };
+
+    function handleNodeInsert(blockType) {
+        return () => {
+            increaseBlocksFcn();
+            const blk = new blockType(numBlocks.toString());
+            setNodes([...nodes, blk]);
+        };
     }
 
-    function handleOutputNodeInsert() {
-        increaseBlocksFcn();
-        const blk = new ImageOutputBlock(numBlocks.toString())
-        setNodes([...nodes, blk]);
+    const nodeInsertionFunctions = {};
+    for (const [menuName, blockType] of Object.entries(nodeInsertionHandlers)) {
+        nodeInsertionFunctions[menuName] = handleNodeInsert(blockType);
     }
 
-    function handleSobelNodeInsert() {
-        increaseBlocksFcn();
-        const blk = new SobelFilterBlock(numBlocks.toString())
-        setNodes([...nodes, blk]);
-    }
 
-    function handleGrayscaleNodeInsert() {
-        increaseBlocksFcn();
-        const blk = new GrayscaleFilterBlock(numBlocks.toString())
-        setNodes([...nodes, blk]);
-    }
-
-    function handleBlurNodeInsert() {
-        increaseBlocksFcn();
-        const blk = new BlurFilterBlock(numBlocks.toString())
-        setNodes([...nodes, blk]);
-    }
-
-    function handleCannyEdgeNodeInsert() {
-        increaseBlocksFcn();
-        const blk = new CannyEdgeDetectorBlock(numBlocks.toString())
-        setNodes([...nodes, blk]);
-    }
-    function handleHoughLineDetectionBlock() {
-        increaseBlocksFcn();
-        const blk = new HoughLineDetectorBlock(numBlocks.toString())
-        setNodes([...nodes, blk]);
-    }
-    function handleRandomNodeInsert() {
-        increaseBlocksFcn();
-        const img = RandomBlockConcrete(numBlocks.toString())
-        setNodes([...nodes, img]);
-    }
 
     // Main Click Dispatcher
     function handleClick(menuName) {
-        switch (menuName) {
-            case "Input Image Block":
-                return handleInputNodeInsert;
-            case "Display Block":
-                return handleOutputNodeInsert;
-            case "Sobel Filter Block":
-                return handleSobelNodeInsert;
-            case "Grayscale Filter Block":
-                return handleGrayscaleNodeInsert;
-            case "Blur Filter Block":
-                return handleBlurNodeInsert;
-            case "Canny Edge Detection Block":
-                return handleCannyEdgeNodeInsert;
-            case "Hough Line Detection Block":
-                return handleHoughLineDetectionBlock;
-            default:
-                return (<></>);
-        }
+        return nodeInsertionFunctions[menuName] || (() => { });
     }
 
     function onClick({ item, key, keyPath, domEvent }) {
@@ -145,7 +137,7 @@ export default function LeftSideMenu() {
                 defaultOpenKeys={['sub1']}
                 style={{
                     height: '100%',
-                    fontSize: "12px",
+                    fontSize: "10px",
                 }}
                 items={items1}
             />

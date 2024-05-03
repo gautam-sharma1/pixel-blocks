@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
+import { Card } from "antd";
 import {
     Tooltip,
     TooltipContent,
@@ -12,7 +13,6 @@ import useStore from "@/app/_core/lib/State";
 
 const AbstractImageUpload = ({ nodeId, menuSchema }) => {
     const { propName, displayName, description } = menuSchema;
-    debugger;
     const modifyNodeProperty = useStore((s) => s.modifyNodeProperty);
     const selectedNode = useStore((s) => s.selectedNode);
     // Checks if the node has any user data
@@ -39,19 +39,21 @@ const AbstractImageUpload = ({ nodeId, menuSchema }) => {
     };
     const [uploadedImage, setUploadedImage] = useState(null);
     return (
-        <Upload {...props} accept="image/*"> {/* Use accept="image/*" to only allow image files */}
-            <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger><Button icon={<UploadOutlined />}>{displayName}</Button></TooltipTrigger>
-                    <TooltipContent>
-                        {description}
-                    </TooltipContent>
-                </Tooltip>
-            </TooltipProvider>
+        <Card size="small" className="border-amber-900" style={{ width: 200 }}>
+            <Upload {...props} accept="image/*"> {/* Use accept="image/*" to only allow image files */}
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger><Button icon={<UploadOutlined />}>{displayName}</Button></TooltipTrigger>
+                        <TooltipContent>
+                            {description}
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
 
-            {hasData && <img className="w-80 h-80" src={URL.createObjectURL(selectedNode.node._user_data[propName])} alt="Uploaded" />}
+                {hasData && <img src={URL.createObjectURL(selectedNode.node._user_data[propName])} alt="Uploaded" />}
 
-        </Upload>
+            </Upload>
+        </Card>
     )
 
 }

@@ -8,9 +8,6 @@ export default class CannyEdgeDetectorBlock extends DetectorBlock {
     }
 
     getDialogSchema() {
-        return ["menu_threshhold1", "menu_threshhold2"]
-    }
-    getDialogSchema() {
         return [
             {
                 type: "slider",

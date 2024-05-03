@@ -1,12 +1,21 @@
 import React, { useEffect, useRef } from 'react';
-import useStore from "@/app/_core/lib/State";
 import Spinner from '@/app/_core/ui/components/Spinner';
 import { Space } from 'antd';
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "@/components/ui/resizable"
+import useStore from "@/app/_core/lib/State";
 export default function OutputCanvas() {
     const outputURL = useStore((s) => s.outputURL);
     const loading = useStore((s) => s.compileState);
     const error = useStore((s) => s.error);
     const canvasRef = useRef(null);
+    const selectedNode = useStore((s) => s.selectedNode);
+    // Checks if the node has any user data
+    const hasData = selectedNode?.node?._user_data["image"];
+    console.log("dede", hasData)
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas) {
@@ -47,12 +56,34 @@ export default function OutputCanvas() {
     //     }
     // }, [outputURL]); // Trigger the effect whenever the imageUrl changes
     return (
-        <Space direction="vertical" size={16} className="flex justify-center items-center mt-12 mb-48">
+        <Space direction="vertical" size={100} className="flex justify-center items-center mt-12 mb-48 w-full">
+
             <h2>Image Output</h2>
-            <div >
-                {loading && <Spinner />}
-                {!error && <canvas className=" border-amber-950 border-8" ref={canvasRef} width={600} height={600} />}
-            </div>
+            <ResizablePanelGroup
+                direction="horizontal"
+                className="min-h-[200px] w-100 rounded-lg border"
+            >
+                <ResizablePanel defaultSize={0}>
+                    <div className="flex h-full items-center justify-center p-6">
+
+                        {hasData && <img className="w-80 h-80" src={URL.createObjectURL(selectedNode?.node?._user_data["image"])} alt="Uploaded" />}
+                        {/* {<canvas className=" border-amber-950 border-2" ref={canvasRef} width={500} height={500} />} */}
+
+                    </div>
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+                <ResizablePanel defaultSize={100}>
+                    <div className="flex h-full items-center justify-center p-6">
+
+                        {loading && <Spinner />}
+                        {<canvas className=" border-amber-950 border-2" ref={canvasRef} width={500} height={500} />}
+
+                    </div>
+                </ResizablePanel>
+
+
+            </ResizablePanelGroup>
+
         </Space>
     )
 };

@@ -32,7 +32,8 @@ const AbstractSlider = ({ nodeId, menuSchema }) => {
             <Typography.Title
                 level={4}
                 style={{
-                    textAlign: "left"
+                    textAlign: "left",
+                    fontSize: "12px"
                 }}
 
             >
@@ -47,7 +48,7 @@ const AbstractSlider = ({ nodeId, menuSchema }) => {
 
 
             </Typography.Title>
-            <Card size="small" className="border-amber-900" style={{ width: 250 }}>
+            <Card size="small" className="border-amber-900" style={{ width: 200 }}>
                 <Slider
                     min={min}
                     max={max}
