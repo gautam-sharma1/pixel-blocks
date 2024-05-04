@@ -1,3 +1,3 @@
-- client side graph validation
-- testing for graph
-- improve layout
+~~- client side graph validation~~
+~~- testing for graph~~
+~~- improve layout~~
