@@ -17,6 +17,7 @@ import OutputCanvas from "@/app/_core/lib/output/OutputCanvas";
 import AppFooter from "@/app/_core/ui/components/AppFooter";
 import AppHeader from "@/app/_core/ui/components/AppHeader";
 import TopMenu from "@/app/_core/ui/components/TopMenu";
+import { Separator } from "@/components/ui/separator";
 
 const EntryPoint = () => {
   const {
@@ -51,7 +52,7 @@ const EntryPoint = () => {
                 margin: "0",
               }}
             >
-              <TopMenu />
+              {/* <TopMenu /> */}
               <App />
             </Content>
             <div
@@ -69,7 +70,7 @@ const EntryPoint = () => {
         <div className="flex items-center justify-center">
           <CompileButton />
         </div>
-
+        {/* <Separator className="my-4 border-solid border-2 border-zinc-900 max-w-fit" /> */}
         <Content
           style={{
             textAlign: "center",

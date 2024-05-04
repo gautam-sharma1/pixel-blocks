@@ -1,5 +1,6 @@
 import React from 'react';
-import { Layout} from 'antd';
+import { Layout } from 'antd';
+import Link from 'next/link';
 const { Footer } = Layout;
 const AppFooter = (props) => (
     <Footer
@@ -7,7 +8,7 @@ const AppFooter = (props) => (
             textAlign: 'center',
         }}
     >
-        Visual AI ©{new Date().getFullYear()} Created by Gautam Sharma
+        Pixel Blocks © {new Date().getFullYear()} Created by <Link href={"https://www.gsharma.dev"}>Gautam Sharma</Link>
     </Footer>
 
 );

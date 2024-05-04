@@ -6,8 +6,8 @@ export default function SelectionMenu({ nodeId, menusToRender }) {
 
     return (
         <Space direction="vertical" size={16}>
-
-            {menusToRender[0] && <h2>Properties</h2>}
+            {console.log("menustorender", menusToRender)}
+            {menusToRender[0]?.propName ? (<h2>Properties</h2>) : (<div>{menusToRender[0].description}</div>)}
             {menusToRender[0] && menusToRender.map((menu, id) => {
                 return <CreateSingleMenuForSideMenu key={id} nodeId={nodeId} menuToRender={menu} />
             })}

@@ -6,6 +6,8 @@ from actions.filter.grayscale_filter import GrayscaleFilter
 from actions.filter.blur_filter import BlurFilter
 from actions.detector.canny_edge_detection import CannyEdgeDetector
 from actions.detector.hough_line_detection import HoughLineDetector
+from actions.operation.bitwise_not_operation import BitwiseNotOperation
+from actions.operation.bitwise_and_operation import BitwiseAndOperation
 
 
 class Interpreter:
@@ -30,6 +32,8 @@ class Interpreter:
         self.registry.register_action("detector_canny_edge", CannyEdgeDetector)
         self.registry.register_action("detector_hough_line", HoughLineDetector)
         self.registry.register_action("filter_grayscale", GrayscaleFilter)
+        self.registry.register_action("operation_not", BitwiseNotOperation)
+        self.registry.register_action("operation_and", BitwiseAndOperation)
 
 
 

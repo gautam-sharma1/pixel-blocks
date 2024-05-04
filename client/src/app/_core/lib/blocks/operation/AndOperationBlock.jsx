@@ -13,7 +13,7 @@ export default class AndOperationBlock extends TwoOperationBlock {
         return [{
             type: "",
             displayName: "Bitwise And",
-            description: "Calculates per-element bit-wise inversion of the input image",
+            description: "Calculates per-element bit-wise & of the input image",
             propName: "",
         }]
     }

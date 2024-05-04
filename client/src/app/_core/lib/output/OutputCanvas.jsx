@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Spinner from '@/app/_core/ui/components/Spinner';
 import { Space } from 'antd';
+import { WobbleCard } from '@/components/ui/wobble-card';
 import {
     ResizableHandle,
     ResizablePanel,
@@ -15,7 +16,6 @@ export default function OutputCanvas() {
     const selectedNode = useStore((s) => s.selectedNode);
     // Checks if the node has any user data
     const hasData = selectedNode?.node?._user_data["image"];
-    console.log("dede", hasData)
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas) {
@@ -56,34 +56,49 @@ export default function OutputCanvas() {
     //     }
     // }, [outputURL]); // Trigger the effect whenever the imageUrl changes
     return (
-        <Space direction="vertical" size={100} className="flex justify-center items-center mt-12 mb-48 w-full">
+        <Space direction="vertical" size={25} className="flex justify-center items-center mt-12 mb-48 w-full">
+            {1 &&
+                <>
 
-            <h2>Image Output</h2>
-            <ResizablePanelGroup
-                direction="horizontal"
-                className="min-h-[200px] w-100 rounded-lg border"
-            >
-                <ResizablePanel defaultSize={0}>
-                    <div className="flex h-full items-center justify-center p-6">
+                    {< h1 className="text-2xl"> Image Output</h1>}
 
-                        {hasData && <img className="w-80 h-80" src={URL.createObjectURL(selectedNode?.node?._user_data["image"])} alt="Uploaded" />}
-                        {/* {<canvas className=" border-amber-950 border-2" ref={canvasRef} width={500} height={500} />} */}
+                    <ResizablePanelGroup
+                        direction="horizontal"
+                        className="min-h-[200px] w-100 rounded-lg border-2 border-zinc-900 "
+                    >
+                        <ResizablePanel defaultSize={0}>
+                            <WobbleCard
+                                containerClassName="col-span-1 lg:col-span-2 h-full bg-transparent min-h-[500px] lg:min-h-[300px]"
+                                className=""
+                            >
+                                <div className="flex h-full items-center justify-center p-6">
 
-                    </div>
-                </ResizablePanel>
-                <ResizableHandle withHandle />
-                <ResizablePanel defaultSize={100}>
-                    <div className="flex h-full items-center justify-center p-6">
+                                    {hasData && <img className="w-80 h-80" src={URL.createObjectURL(selectedNode?.node?._user_data["image"])} alt="Uploaded" />}
+                                    {/* {<canvas className=" border-amber-950 border-2" ref={canvasRef} width={500} height={500} />} */}
 
-                        {loading && <Spinner />}
-                        {<canvas className=" border-amber-950 border-2" ref={canvasRef} width={500} height={500} />}
+                                </div>
+                            </WobbleCard >
+                        </ResizablePanel>
+                        <ResizableHandle withHandle />
+                        <ResizablePanel defaultSize={75}>
+                            <WobbleCard
+                                containerClassName="col-span-1 lg:col-span-2 h-full bg-transparent min-h-[500px] lg:min-h-[300px]"
+                                className=""
+                            >
+                                <div className="flex h-full items-center justify-center p-6">
 
-                    </div>
-                </ResizablePanel>
+                                    {loading && <Spinner />}
+                                    {<canvas ref={canvasRef} width={500} height={500} />}
+
+                                </div>
+                            </WobbleCard >
+                        </ResizablePanel>
 
 
-            </ResizablePanelGroup>
+                    </ResizablePanelGroup>
 
-        </Space>
+                </>
+            }
+        </Space >
     )
 };

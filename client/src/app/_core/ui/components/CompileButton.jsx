@@ -24,12 +24,14 @@ const App = () => {
             console.log("setting graph error", graph)
             setError(graph.error)
         } else {
+            // only display the result if there is no error
+            if (status) {
+                setOutputURL(value);
+            }
             setError(null);
         }
 
-        if (status) {
-            setOutputURL(value);
-        }
+
 
         setCompileState(false);
     }

@@ -15,6 +15,7 @@ import HoughLineDetectorBlock from "@/app/_core/lib/blocks/detector/HoughLineDet
 import NotOperationBlock from "@/app/_core/lib/blocks/operation/NotOperationBlock";
 import AndOperationBlock from "@/app/_core/lib/blocks/operation/AndOperationBlock";
 import SecondaryImageInputBlock from "@/app/_core/lib/blocks/input/SecondaryImageInputBlock";
+import KmeansDetectorBlock from "../blocks/detector/KmeansDetectorBlock";
 
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import TvOutlinedIcon from '@mui/icons-material/TvOutlined';
@@ -29,6 +30,9 @@ import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import FlipIcon from '@mui/icons-material/Flip';
+import AddIcon from '@mui/icons-material/Add';
+import InvertColorsIcon from '@mui/icons-material/InvertColors';
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
 
 const menuIcons = new Map(
     [
@@ -42,9 +46,9 @@ const menuIcons = new Map(
 const menuOptions = new Map(
     [
         ["Input", [{ name: "Input Image Block", icon: <InsertPhotoOutlinedIcon /> }, { name: "Secondary Input Image Block", icon: <InsertPhotoOutlinedIcon /> }]],
-        ["Operation", [{ name: "Bitwise Not Image Block", icon: <FlipIcon /> }, { name: "Bitwise And Image Block", icon: <FlipIcon /> }]],
+        ["Operation", [{ name: "Bitwise Not Image Block", icon: <InvertColorsIcon /> }, { name: "Bitwise And Image Block", icon: <AddIcon /> }]],
         ["Filter", [{ name: "Sobel Filter Block", icon: <BlurOffOutlinedIcon /> }, { name: "Grayscale Filter Block", icon: <ContrastOutlinedIcon /> }, { name: "Blur Filter Block", icon: <BlurCircularOutlinedIcon /> }]],
-        ["Detection", [{ name: "Canny Edge Detection Block", icon: <Grid4x4OutlinedIcon /> }, { name: "Hough Line Detection Block", icon: <SsidChartOutlinedIcon /> },]],
+        ["Detection", [{ name: "K Means Detection Block", icon: <WorkspacesIcon /> }, { name: "Canny Edge Detection Block", icon: <Grid4x4OutlinedIcon /> }, { name: "Hough Line Detection Block", icon: <SsidChartOutlinedIcon /> },]],
         ["Output", [{ name: "Display Block", icon: <TvOutlinedIcon /> }]],
     ])
 
@@ -91,7 +95,8 @@ export default function LeftSideMenu() {
         "Canny Edge Detection Block": CannyEdgeDetectorBlock,
         "Hough Line Detection Block": HoughLineDetectorBlock,
         "Bitwise Not Image Block": NotOperationBlock,
-        "Bitwise And Image Block": AndOperationBlock
+        "Bitwise And Image Block": AndOperationBlock,
+        "K Means Detection Block": KmeansDetectorBlock,
     };
 
     function handleNodeInsert(blockType) {

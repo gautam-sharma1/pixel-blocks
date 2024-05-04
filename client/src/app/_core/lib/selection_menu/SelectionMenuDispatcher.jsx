@@ -17,7 +17,8 @@ export default function SelectionMenuDispatcher() {
         <>
             {
                 hasMenus ? <SelectionMenu key={selectedNode.id} nodeId={selectedNode.id} menusToRender={menus} /> :
-                    <PlaceHolderMenu />
+
+                    <></>
             }
 
         </>
