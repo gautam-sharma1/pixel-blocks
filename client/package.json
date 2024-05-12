@@ -46,6 +46,7 @@
     "@vitest/coverage-istanbul": "^1.5.3",
     "@vitest/coverage-v8": "^1.5.3",
     "autoprefixer": "^10.0.1",
+    "daisyui": "^4.11.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "jest": "^29.7.0",

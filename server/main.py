@@ -1,18 +1,17 @@
-"""
-Copyright © 2024 Gautam Sharma
-
-This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives License.
-
-You are free to:
-- Share — copy and redistribute the material in any medium or format
-
-Under the following terms:
-- Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-- NonCommercial — You may not use the material for commercial purposes.
-- NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.
-
-Permissions beyond the scope of this license may be available at gsharma2813@gmail.com.
-"""
+# Copyright © 2024 Gautam Sharma
+#
+# This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives License.
+#
+# You are free to:
+# - Share — copy and redistribute the material in any medium or format
+#
+# Under the following terms:
+# - Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. 
+#   You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+# - NonCommercial — You may not use the material for commercial purposes.
+# - NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.
+#
+# Permissions beyond the scope of this license may be available at gsharma2813@gmail.c
 
 from flask import Flask,jsonify
 from flask import request, make_response
@@ -33,28 +32,29 @@ d = Dispatcher()
 @app.route("/compile",methods = ['POST'])
 @cross_origin()
 def compile():
-    print('got a request')
-    req_data = request.data
-    blocks_as_unidirected_graph = json.loads(req_data)
+    try:
+        print('got a request')
+        req_data = request.data
+        blocks_as_unidirected_graph = json.loads(req_data)
 
-    if len(blocks_as_unidirected_graph) == 0:
-        return make_response(jsonify({'error': "Received empty data"}), 200)
+        if len(blocks_as_unidirected_graph) == 0:
+            return make_response(jsonify({'error': "Received empty data"}), 200)
+        out = d.compile_and_run(blocks_as_unidirected_graph)
 
+        if out["out"] is not None:
 
-    out = d.compile_and_run(blocks_as_unidirected_graph)
+        # Convert the image to a base64-encoded string
+            retval, buffer = cv2.imencode('.jpg', out["out"])
+            image_str = base64.b64encode(buffer).decode()
 
-    if out["out"] is not None:
+            return make_response(jsonify({'image': image_str}), 200)
 
-    # Convert the image to a base64-encoded string
-        retval, buffer = cv2.imencode('.jpg', out["out"])
-        image_str = base64.b64encode(buffer).decode()
+        elif out["error"] is not None:
+            return make_response(jsonify({'error': out["error"]}), 200)
 
-        return make_response(jsonify({'image': image_str}), 200)
-
-    elif out["error"] is not None:
-        return make_response(jsonify({'error': out["error"]}), 200)
-
-    return make_response(jsonify({'error': "Try again"}), 200)
+        return make_response(jsonify({'error': "Try again"}), 200)
+    except Exception as e:
+        return make_response(jsonify({'error': str(e)}), 500)
 
 @app.route("/test",methods = ['GET'])
 @cross_origin()

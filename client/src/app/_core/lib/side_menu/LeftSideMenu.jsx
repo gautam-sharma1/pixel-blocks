@@ -6,7 +6,6 @@ import { useReactFlow } from "reactflow";
 
 import ImageInputBlock from "@/app/_core/lib/blocks/input/ImageInputBlock";
 import ImageOutputBlock from "@/app/_core/lib/blocks/output/ImageOutputBlock";
-import RandomBlockConcrete from "@/app/_core/lib/RandomBlockConcrete";
 import SobelFilterBlock from "@/app/_core/lib/blocks/filter/SobelFilterBlock";
 import GrayscaleFilterBlock from "@/app/_core/lib/blocks/filter/GrayscaleFilterBlock";
 import BlurFilterBlock from "@/app/_core/lib/blocks/filter/BlurFilterBlock";

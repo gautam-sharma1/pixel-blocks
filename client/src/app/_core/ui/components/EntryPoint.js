@@ -3,13 +3,13 @@ import App from "@/app/_core/ui/components/App";
 import LeftSideMenu from "@/app/_core/lib/side_menu/LeftSideMenu";
 import { ReactFlowProvider } from "reactflow";
 
-import React from "react";
+import React, {useRef, useState} from "react";
 import {
   LaptopOutlined,
   NotificationOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Layout, Menu, theme, Tour, Button, Space } from "antd";
 import SelectionMenuDispatcher from "@/app/_core/lib/selection_menu/SelectionMenuDispatcher";
 const { Header, Content, Footer, Sider } = Layout;
 import CompileButton from "@/app/_core/ui/components/CompileButton";
@@ -23,10 +23,41 @@ const EntryPoint = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const [open, setOpen] = useState(false);
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const ref3 = useRef(null);
+  const ref4 = useRef(null);
+   const steps = [
+    {
+      title: 'Add Image blocks',
+      description: 'Start by adding an Image Input Block.',
+      target: () => ref1.current,
+      arrow: true
+    },
+        {
+      title: 'Change properties of blocks',
+      description: 'Use the right side menu to modify block parameters.',
+      target: () => ref2.current,
+      arrow: true
+    },
+          {
+      title: 'Compile button',
+      description: 'Click on this button to compile the project.',
+      target: () => ref3.current,
+      arrow: true
+    },
+        {
+      title: 'Output canvas',
+      description: 'Visualize the results in the output canvas.',
+      target: () => ref4.current,
+      arrow: true
+    },
+  ];
   return (
     <Layout>
       <ReactFlowProvider>
-        <AppHeader />
+        <AppHeader startTour={setOpen}/>
         <Content
           style={{
             padding: "0 48px",
@@ -39,8 +70,11 @@ const EntryPoint = () => {
               borderRadius: borderRadiusLG,
             }}
           >
+            <div ref={ref1}>
+                 <LeftSideMenu />
+            </div>
             {/*Left menu*/}
-            <LeftSideMenu />
+
 
             {/*Main Flow App*/}
             <Content
@@ -61,14 +95,15 @@ const EntryPoint = () => {
                 background: colorBgContainer,
                 width: 210,
               }}
-            >
+            ref={ref2}>
               <SelectionMenuDispatcher />
             </div>
           </Layout>
         </Content>
 
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center" ref={ref3}>
           <CompileButton />
+
         </div>
         {/* <Separator className="my-4 border-solid border-2 border-zinc-900 max-w-fit" /> */}
         <Content
@@ -77,10 +112,13 @@ const EntryPoint = () => {
             background: colorBgContainer,
           }}
         >
-          <OutputCanvas />
+          <div ref={ref4}>
+           <OutputCanvas  />
+          </div>
           {/*</Layout>*/}
         </Content>
         <AppFooter />
+        <Tour open={open} onClose={() => setOpen(false)} type="primary" steps={steps} arrow={true}/>
       </ReactFlowProvider>
     </Layout>
   );

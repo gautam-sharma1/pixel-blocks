@@ -1,2 +1,4 @@
 /server/.venv
 /server/.idea
+
+/server/fly.toml
