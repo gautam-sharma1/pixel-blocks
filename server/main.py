@@ -56,11 +56,11 @@ def compile():
 
     return make_response(jsonify({'error': "Try again"}), 200)
 
-@app.route("/test",methods = ['POST'])
+@app.route("/test",methods = ['GET'])
 @cross_origin()
 def test():
     return make_response(jsonify({'status': "Success"}), 200)
 
 
 if __name__ == '__main__':
-   app.run(port=8000)
+   app.run(host="0.0.0.0", port=8000)

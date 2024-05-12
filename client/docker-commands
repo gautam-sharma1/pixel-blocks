@@ -1,0 +1,35 @@
+# build image
+
+docker build -t <image_name> .
+
+# run container
+
+docker run --name <container_name> -p 8000:8000 <image_name>
+
+# list out all running containers
+
+docker ps
+
+# look inside the image
+
+docker exec -it <container_name> /bin/bash
+
+# execute commands
+
+curl http://127.0.0.1:8000
+
+# exit from shell
+
+exit
+
+# get IP address of the running container
+
+docker inspect <container_name> | grep IPAddress
+
+# stop container
+
+docker stop <container_name>
+
+# remove container
+
+docker rm <container_name>
