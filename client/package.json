@@ -41,6 +41,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.7",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.6",
     "@vitest/coverage-istanbul": "^1.5.3",

@@ -1,5 +1,9 @@
 /* The `Graph` class in JavaScript represents a graph data structure with methods for constructing a
 unidirectional graph, compiling the graph, and sending requests to a backend server. */
+
+
+console.log(process.env.NEXT_PUBLIC_SERVER_COMPILE_URL)
+
 export default class Graph {
   /**
    * The constructor function initializes properties for a graph data structure.
