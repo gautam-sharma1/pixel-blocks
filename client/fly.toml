@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for pixel-blocks-client on 2024-05-12T17:53:05-04:00
+# fly.toml app configuration file generated for client-pixel-block on 2024-05-12T22:13:25-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'pixel-blocks-client'
+app = 'client-pixel-block'
 primary_region = 'bos'
 
 [build]
@@ -21,7 +21,5 @@ primary_region = 'bos'
   cpu_kind = 'shared'
   cpus = 1
 
-
 [env]
   NEXT_PUBLIC_SERVER_COMPILE_URL = "https://pixel-blocks-server.fly.dev/compile"
-  COMPILE_URL = "https://pixel-blocks-server.fly.dev/compile"

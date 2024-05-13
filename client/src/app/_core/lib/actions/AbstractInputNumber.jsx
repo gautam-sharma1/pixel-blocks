@@ -45,7 +45,7 @@ const AbstractInputNumber = ({ nodeId, menuSchema }) => {
                 </TooltipProvider>
 
             </Typography.Title>
-            <Card size="small" className="border-amber-900" style={{ width: 250 }}>
+            <Card size="small" className="border-slate-600" style={{ width: 250 }}>
                 <InputNumber min={1} max={200} defaultValue={parseInt(val)} onChange={onValueChange} />
             </Card>
         </>

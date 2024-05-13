@@ -48,7 +48,7 @@ const AbstractSlider = ({ nodeId, menuSchema }) => {
 
 
             </Typography.Title>
-            <Card size="small" className="border-amber-900" style={{ width: 200 }}>
+            <Card size="small" className="border-slate-600" style={{ width: 200 }}>
                 <Slider
                     min={min}
                     max={max}

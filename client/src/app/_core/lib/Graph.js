@@ -1,8 +1,11 @@
 /* The `Graph` class in JavaScript represents a graph data structure with methods for constructing a
 unidirectional graph, compiling the graph, and sending requests to a backend server. */
 
+// This gets called on every request
+export async function getServerSideProps() {
+    console.log(process.env.NEXT_PUBLIC_SERVER_COMPILE_URL)
+}
 
-console.log(process.env.NEXT_PUBLIC_SERVER_COMPILE_URL)
 
 export default class Graph {
   /**
@@ -199,7 +202,7 @@ export default class Graph {
    * @returns The `sendRequestToBackend` function is returning the `data.image` if there is no error in
    * the response from the backend.
    */
-  async sendRequestToBackend() {
+  async sendRequestToBackend(url) {
     // Set a timeout promise
     const timeoutPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -208,7 +211,7 @@ export default class Graph {
     });
 
     // Fetch request
-    const fetchPromise = fetch(process.env.NEXT_PUBLIC_SERVER_COMPILE_URL, {
+    const fetchPromise = fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -254,7 +257,8 @@ export default class Graph {
     });
   }
 
-  async compile() {
+  async compile(url) {
+    console.log("got url", url)
     // Precompile
     const status = await this._precompile();
     if (!status) {
@@ -269,7 +273,7 @@ export default class Graph {
     await this.constructUniDirectionalGraph();
 
     // Send request to the backend and wait for the result
-    const image = await this.sendRequestToBackend();
+    const image = await this.sendRequestToBackend(url);
     if (image) {
       return [true, image]; // TODO change
     }
