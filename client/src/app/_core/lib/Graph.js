@@ -107,7 +107,7 @@ export default class Graph {
     this.compileSteps = [];
     this.error = null;
     this.graphAdjacenyList = {};
-    if (this.nodes && this.edges) {
+    if (this.nodes.length>0 && this.edges.length>0) {
       for (const edge of this.edges) {
         const sourceID = edge.source;
         const targetID = edge.target;
@@ -150,6 +150,10 @@ export default class Graph {
           return false;
         }
       }
+    }
+    else{
+        this.error = "No block found!"
+        return false;
     }
     return true;
   }
@@ -206,7 +210,10 @@ export default class Graph {
     // Set a timeout promise
     const timeoutPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
-        reject(new Error("Request timed out"));
+      const error = new Error("Request timed out");
+      this.error = "Server error! try again";
+      console.log(this.error);
+      resolve({ timeout: true });
       }, 10000); // 10 seconds timeout
     });
 
@@ -227,8 +234,10 @@ export default class Graph {
         } else {
           return data.image;
         }
-      });
-
+      })
+      .catch((e)=>{
+        this.error = "Server error! try again";
+      })
     // Race between fetch and timeout promises
     return Promise.race([fetchPromise, timeoutPromise]);
   }
@@ -258,7 +267,7 @@ export default class Graph {
   }
 
   async compile(url) {
-    console.log("got url", url)
+    url = ""
     // Precompile
     const status = await this._precompile();
     if (!status) {

@@ -139,7 +139,7 @@ const EntryPoint = () => {
           <Content
             style={{
               textAlign: "center",
-              background: themeConstant.background,
+              background: themeConstant.color_bg_container,
             }}
           >
             <div ref={ref4}>

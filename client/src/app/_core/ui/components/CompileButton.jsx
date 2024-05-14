@@ -7,12 +7,16 @@ import { useReactFlow } from "reactflow";
 import { cn } from '@/lib/utils';
 import themeConstant from '../../themeConstants';
 
-export async function getServerSideProps() {
-    // Fetch data from external API
-    return { props: process.env.COMPILE_URL }
-}
+// export async function getServerSideProps() {
+//     // Fetch data from external API
+//     const compileURL = process.env.COMPILE_URL;
+//     console.log(":De", compileURL);
+//     return { props: { compileURL } }
+// }
 
-const App = ({ compileURL }) => {
+const App = () => {
+
+//     console.log(compileURL);
 
     const compileState = useStore((s) => s.compileState);
     const setCompileState = useStore((s) => s.setCompileState);
@@ -21,6 +25,7 @@ const App = ({ compileURL }) => {
     const setOutputURL = useStore((s) => s.setOutputURL);
     const setError = useStore((s) => s.setError);
     async function handleCompile(e) {
+        console.log("hello1", process.env.NEXT_PUBLIC_SERVER_COMPILE_URL)
         e.preventDefault();
         setCompileState(true);
 
@@ -28,7 +33,7 @@ const App = ({ compileURL }) => {
         graph.setNodes(reactFlow.getNodes());
         // graph.setOutputURL()
 
-        const [status, value] = await graph.compile(compileURL);
+        const [status, value] = await graph.compile(process.env.NEXT_PUBLIC_SERVER_COMPILE_URL);
 
         if (graph.error) {
             console.log("setting graph error", graph)

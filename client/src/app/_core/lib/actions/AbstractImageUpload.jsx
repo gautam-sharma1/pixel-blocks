@@ -41,7 +41,7 @@ const AbstractImageUpload = ({ nodeId, menuSchema }) => {
     };
     const [uploadedImage, setUploadedImage] = useState(null);
     return (
-        <Card size="small" className="border-slate-600" style={{ width: 200 }}>
+        <Card size="small" className="border-slate-600" style={{ width: 200, background: themeConstant.color_bg_container }}>
             <Upload {...props} accept="image/*"> {/* Use accept="image/*" to only allow image files */}
                 <TooltipProvider>
                     <Tooltip>

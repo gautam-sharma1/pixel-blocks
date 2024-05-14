@@ -54,7 +54,7 @@ const FilterSizeEdge = ({ nodeId, menuSchema }) => {
                 </TooltipProvider>
 
             </Typography.Title>
-            <Card size="small" className="border-slate-600" style={{ width: 200 }}>
+            <Card size="small" className="border-slate-600" style={{ width: 200, background: themeConstant.color_bg_container }}>
 
                 <Select onValueChange={onValueChange} defaultValue={currentStoredValInCache}>
                     <SelectTrigger>

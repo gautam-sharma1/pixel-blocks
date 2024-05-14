@@ -12,6 +12,7 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV="production"
 
+ARG NEXT_PUBLIC_SERVER_COMPILE_URL=https://pixel-blocks-server.fly.dev/compile
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
