@@ -33,6 +33,8 @@ import AddIcon from '@mui/icons-material/Add';
 import InvertColorsIcon from '@mui/icons-material/InvertColors';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
 
+import themeConstant from "../../themeConstants";
+
 const menuIcons = new Map(
     [
         ["Input", { icon: <InputOutlinedIcon /> }],
@@ -130,7 +132,7 @@ export default function LeftSideMenu() {
     return (
         <Sider
             style={{
-                background: colorBgContainer,
+                background: themeConstant.color_bg_container,
             }}
             width={250}
         >
@@ -142,6 +144,7 @@ export default function LeftSideMenu() {
                 style={{
                     height: '100%',
                     fontSize: "10px",
+                    background: themeConstant.color_bg_container
                 }}
                 items={items1}
             />
