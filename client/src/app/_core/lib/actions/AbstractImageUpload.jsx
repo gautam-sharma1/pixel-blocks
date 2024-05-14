@@ -12,6 +12,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import useStore from "@/app/_core/lib/State";
+import themeConstant from '../../themeConstants';
 
 const AbstractImageUpload = ({ nodeId, menuSchema }) => {
     const { propName, displayName, description } = menuSchema;

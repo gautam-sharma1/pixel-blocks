@@ -11,6 +11,7 @@ import { Card } from "antd";
 import { Typography } from 'antd';
 
 import useStore from "@/app/_core/lib/State";
+import themeConstant from '../../themeConstants';
 
 const AbstractSlider = ({ nodeId, menuSchema }) => {
 
